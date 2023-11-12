@@ -35,3 +35,8 @@ If you're ready to dive into Cricket HQ's backend, follow these steps to get sta
 
    ```bash
    git clone https://github.com/itsvivianjoseph/Cricket-HQ.git
+
+
+## NOTE : This project is still under development :construction:
+
+Please note that Cricket HQ is an ongoing project, and various features and improvements are actively being worked on. Feel free to contribute and help make this cricket management system even better!
