@@ -1,4 +1,4 @@
-# Cricket HQ - Backend :cricket:
+# Cricket HQ - Backend : 🏏
 
 ## Overview :globe_with_meridians:
 Welcome to the backend of Cricket HQ, a cricket management system. :briefcase:
