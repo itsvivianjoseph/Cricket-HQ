@@ -2,6 +2,11 @@ const router = require("express").Router();
 const User = require("../Models/User");
 const UserRole = require("../Models/UserRole");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const createToken = (userId, userRole) => {
+    return jwt.sign({ userId, userRole }, process.env.SECRET_KEY, { expiresIn: '3d' });
+};
 
 // Registration Route
 router.post("/register", async (req, res) => {
@@ -9,22 +14,25 @@ router.post("/register", async (req, res) => {
         const role = await UserRole.findOne({ role: req.body.userRole });
 
         if (!role) {
-            res.status(400).json({ error: "Invalid user role" });
-            return;
+            return res.status(400).json({ error: "Invalid user role" });
         }
 
-        const hashedPassword = bcrypt.hash(req.body.password, process.env.SALT_ROUNDS);
+        const hashedPassword = await bcrypt.hash(req.body.password, process.env.SALT_ROUNDS);
 
         const newUser = new User({
-        username: req.body.username,
-        password: hashedPassword,
-        email: req.body.email,
-        fullName: req.body.fullName,
-        userRole: role._id,
+            username: req.body.username,
+            password: hashedPassword,
+            email: req.body.email,
+            fullName: req.body.fullName,
+            userRole: role._id,
         });
 
         const savedUser = await newUser.save();
-        res.status(200).json(savedUser);
+
+        // Create a JWT token with the user's ID and role
+        const token = createToken(savedUser._id, req.body.userRole);
+
+        res.status(200).json({ userId: savedUser._id, token });
 
     } catch (error) {
         res.status(500).json(error);
@@ -37,22 +45,25 @@ router.post("/login", async (req, res) => {
         const user = await User.findOne({ username: req.body.username });
 
         if (!user) {
-            res.status(401).json("Wrong user credentials");
+            res.status(401).json({ error: "Wrong user credentials" });
             return;
         }
 
         const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
         if (!isPasswordValid) {
-            res.status(401).json("Wrong password");
+            res.status(401).json({ error: "Wrong password" });
             return;
         }
-        
-        res.status(200).json("Authentication successful");
+
+        // Create a JWT token with the user's ID and role
+        const token = createToken(user._id, user.userRole);
+
+        res.status(200).json({ userId: user._id, token });
 
     } catch (error) {
-    res.status(500).json(error);
-  }
+        res.status(500).json(error);
+    }
 });
 
 module.exports = router;

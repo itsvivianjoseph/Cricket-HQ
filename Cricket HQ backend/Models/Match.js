@@ -36,6 +36,10 @@ const MatchSchema = new mongoose.Schema({
       ref: "Player",
     },
   ],
+  umpire: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Umpire",
+  },
 });
 
 const Match = mongoose.model("Match", MatchSchema);

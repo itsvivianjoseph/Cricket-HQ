@@ -1,0 +1,44 @@
+user - table
+- user_id (Primary Key)
+- username
+- password_hash
+- email
+- full_name
+- registration_date
+- last_login
+- user_role_id (Foreign Key to UserRole Table)
+
+
+UserRole - Table 
+- role_id (Primary Key)
+- role_name
+
+team_manager - Table
+- manager_id (Primary Key)
+- user_id (Foreign Key to User Table)
+- team_name
+- contact_number
+- team_description
+
+Player - Table
+- player_id (Primary Key)
+- user_id (Foreign Key to User Table)
+- team_id (Foreign Key to Team Table)
+- date_of_birth
+- batting_style
+- bowling_style
+- player_role
+- player_statistics (JSON or a related data type)
+
+umpire - Table
+- umpire_id (Primary Key)
+- user_id (Foreign Key to User Table)
+- umpire_level
+- experience_years
+
+match_official - Table
+- official_id (Primary Key)
+- user_id (Foreign Key to User Table)
+- official_role
+- contact_information
+
