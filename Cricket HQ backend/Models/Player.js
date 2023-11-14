@@ -24,6 +24,22 @@ const PlayerSchema = new mongoose.Schema({
   playerStats: {
     type: Object,
   },
+  nonGoverningBodyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "NonGoverningBody",
+  },
+  stateId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "State",
+  },
+  districtId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "District",
+  },
+  sportId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Sport",
+  }
 });
 
 const Player = mongoose.model("Player", PlayerSchema);
