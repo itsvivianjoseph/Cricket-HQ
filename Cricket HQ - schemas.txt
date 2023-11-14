@@ -1,44 +1,84 @@
-user - table
-- user_id (Primary Key)
-- username
-- password_hash
-- email
-- full_name
-- registration_date
-- last_login
-- user_role_id (Foreign Key to UserRole Table)
+// Club Schema
+clubName: String
+clubOwner: String
+clubPhoneNumber: String
+clubEmail: String
+sportId: ObjectId (ref: "Sport")
+teamId: ObjectId (ref: "Team")
 
+// District Schema
+districtId: ObjectId (unique: true)
+sgbName: String
+dgbName: String
 
-UserRole - Table 
-- role_id (Primary Key)
-- role_name
+// Match Schema
+matchId: ObjectId
+teamOne: ObjectId (ref: "Team")
+teamTwo: ObjectId (ref: "Team")
+date: Date
+location: String
+result: ObjectId (ref: "Result")
+teamOnePlayers: [ObjectId (ref: "Player")]
+teamTwoPlayers: [ObjectId (ref: "Player")]
+umpire: ObjectId (ref: "Umpire")
 
-team_manager - Table
-- manager_id (Primary Key)
-- user_id (Foreign Key to User Table)
-- team_name
-- contact_number
-- team_description
+// Non-Governing Body Schema
+ngbId: ObjectId (unique: true)
+name: String
+region: String
 
-Player - Table
-- player_id (Primary Key)
-- user_id (Foreign Key to User Table)
-- team_id (Foreign Key to Team Table)
-- date_of_birth
-- batting_style
-- bowling_style
-- player_role
-- player_statistics (JSON or a related data type)
+// Player Schema
+playerId: ObjectId
+userId: ObjectId (ref: "User")
+teamId: ObjectId (ref: "Team")
+dateOfBirth: Date
+playerRole: String
+playerStats: Object
+nonGoverningBodyId: ObjectId (ref: "NonGoverningBody")
+stateId: ObjectId (ref: "State")
+districtId: ObjectId (ref: "District")
+sportId: ObjectId (ref: "Sport")
 
-umpire - Table
-- umpire_id (Primary Key)
-- user_id (Foreign Key to User Table)
-- umpire_level
-- experience_years
+// Region Schema
+regionId: ObjectId (unique: true)
+name: String
 
-match_official - Table
-- official_id (Primary Key)
-- user_id (Foreign Key to User Table)
-- official_role
-- contact_information
+// Result Schema
+outcome: String (enum: ["Win", "Loss", "Draw", "Tie", "No Result"])
 
+// State Governing Body Schema
+sgbId: ObjectId (unique: true)
+name: String
+nonGoverningBodyId: ObjectId (ref: "NonGoverningBody")
+
+// Team Schema
+name: String (unique: true)
+description: String
+manager: ObjectId (ref: "User")
+members: [ObjectId (ref: "User")]
+startedYear: Number
+clubId: ObjectId (ref: "Club")
+
+// Team Manager Schema
+managerId: ObjectId (unique: true)
+teamId: ObjectId (unique: true)
+contactNumber: String
+
+// Umpire Schema
+umpireId: ObjectId
+userId: ObjectId (ref: "User")
+umpireLevel: String
+experienceYears: Number
+
+// User Schema
+userId: ObjectId (unique: true)
+username: String
+password: String
+email: String
+fullName: String
+registrationDate: Date
+userRole: ObjectId (ref: "UserRole")
+
+// User Role Schema
+role: String (enum: ["Player", "Umpire", "TeamManager", "Administrator", "Coach", "Scout", "Manager", "Scorer"])
+description: String
