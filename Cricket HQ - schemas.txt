@@ -7,7 +7,7 @@ sportId: ObjectId (ref: "Sport")
 teamId: ObjectId (ref: "Team")
 
 // District Schema
-districtId: ObjectId (unique: true)
+districtId: ObjectId (unique: tru)
 sgbName: String
 dgbName: String
 
